@@ -6,7 +6,7 @@ milkcocoa client library for android
 
 #使い方
 
-libsいかにmilkcocoa.jarを入れる。
+libs以下にmilkcocoa.jarを入れる。
 
 AndroidManifest.xmlに以下の一行を追加
 
