@@ -3,6 +3,13 @@ milkcocoa_for_android
 
 milkcocoa client library for android
 
+#概要
+
+milkcocoaはリアルタイム通信を協力にサポートする、Backend as a Serviceです。
+
+https://mlkcca.com
+
+
 
 #使い方
 
