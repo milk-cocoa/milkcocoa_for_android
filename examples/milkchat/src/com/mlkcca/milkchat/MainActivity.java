@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 					try {
 						query = MainActivity.this.messagesDataStore.query(new JSONObject());
 						query.limit(25);
-						query.desort("date");
+						query.desort("time");
 						query.done(new Callback() {
 
 							@Override
@@ -196,7 +196,6 @@ public class MainActivity extends Activity {
     };
 
     public void sendEvent(View view){
-		// 文字が入力されていなければ何もしない
 		if (editText.getText().toString().length() == 0) {
 		    return;
 		}
@@ -206,11 +205,12 @@ public class MainActivity extends Activity {
 			params.put("content", editText.getText().toString());
 			Date date = new Date();
 			params.put("date", date.toString());
+			params.put("time", date.getTime());
 			this.messagesDataStore.push(params);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-    	// テキストフィールドをリセット
+		
     	editText.setText("");
     }
 }
