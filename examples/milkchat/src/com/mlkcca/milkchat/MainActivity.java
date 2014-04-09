@@ -60,142 +60,84 @@ public class MainActivity extends Activity {
 
     private void connect() {
         this.milkcocoa = new MilkCocoa();
+        try {
+			milkcocoa.init("https://io-dammy-0000.mlkcca.com");
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		this.messagesDataStore = MainActivity.this.milkcocoa.dataStore("message");
-    	try {
-			//milkcocoa.init("http://10.0.2.2:3000", "mlkdev-000h", new Callback() {
-			milkcocoa.init("https://mlkcca.com", "chatapp", new Callback() {
+		Query query;
+		try {
+			query = MainActivity.this.messagesDataStore.query(new JSONObject());
+			query.limit(25);
+			query.desort("time");
+			query.done(new Callback() {
 
 				@Override
-				public void callback(Object err) {
-					Query query;
-					try {
-						query = MainActivity.this.messagesDataStore.query(new JSONObject());
-						query.limit(25);
-						query.desort("time");
-						query.done(new Callback() {
-
-							@Override
-							public void callback(Object arg0) {
-								final JSONArray messages = (JSONArray)arg0;
-								
-								new Thread(new Runnable() {
-									public void run() {
-									handler.post(new Runnable() {
-										public void run() {
-												for(int i=0;i < messages.length();i++) {
-													try {
-														adapter.insert(messages.getJSONObject(i).getString("content"), i);
-													} catch (JSONException e) {
-														// TODO Auto-generated catch block
-														e.printStackTrace();
-													}
-												}
-											}
-										});
+				public void callback(Object arg0) {
+					final JSONArray messages = (JSONArray)arg0;
+					
+					new Thread(new Runnable() {
+						public void run() {
+						handler.post(new Runnable() {
+							public void run() {
+									for(int i=0;i < messages.length();i++) {
+										try {
+											adapter.insert(messages.getJSONObject(i).getString("content"), i);
+										} catch (JSONException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
 									}
-								}).start();
-							}});
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						MainActivity.this.messagesDataStore.on("push", new Callback() {
+								}
+							});
+						}
+					}).start();
+				}});
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
-							@Override
-							public void callback(Object arg0) {
-								final JSONObject pushed = (JSONObject)arg0;
-								new Thread(new Runnable() {
-									public void run() {
-									handler.post(new Runnable() {
-										public void run() {
-												String content = "";
-												try {
-													content = pushed.getJSONObject("value").getString("content");
-												} catch (JSONException e) {
-													// TODO Auto-generated catch block
-													e.printStackTrace();
-												}
-												adapter.insert(content, 0);
-											}
-										});
+		try {
+			this.messagesDataStore.on("push", new Callback() {
+
+				@Override
+				public void callback(Object arg0) {
+					final JSONObject pushed = (JSONObject)arg0;
+					new Thread(new Runnable() {
+						public void run() {
+						handler.post(new Runnable() {
+							public void run() {
+									String content = "";
+									try {
+										content = pushed.getJSONObject("value").getString("content");
+									} catch (JSONException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
 									}
-								}).start();
-							}
-							
-						});
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+									adapter.insert(content, 0);
+								}
+							});
+						}
+					}).start();
 				}
 				
 			});
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
 
-	private IOCallback iocallback = new IOCallback() {
-
-		@Override
-		public void onConnect() {
-		    System.out.println("onConnect");
-		}
-
-		@Override
-		public void onDisconnect() {
-		    System.out.println("onDisconnect");
-		}
-
-		@Override
-		public void onMessage(JSONObject json, IOAcknowledge ack) {
-			System.out.println("onMessage");
-		}
-
-		@Override
-		public void onMessage(String data, IOAcknowledge ack) {
-		    System.out.println("onMessage");
-		}
-
-		@Override
-		public void on(String event, IOAcknowledge ack, Object... args) {
-			final JSONObject message = (JSONObject)args[0];
-
-			new Thread(new Runnable() {
-				public void run() {
-				handler.post(new Runnable() {
-					public void run() {
-						try {
-							if(message.getString("message") != null) {
-								// メッセージが空でなければ追加
-								adapter.insert(message.getString("message"), 0);
-							}
-
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-						}
-					});
-				}
-			}).start();
-		}
-
-		@Override
-		public void onError(SocketIOException socketIOException) {
-		    System.out.println("onError");
-		    socketIOException.printStackTrace();
-		}
-    };
-
-    public void sendEvent(View view){
+	public void sendEvent(View view){
 		if (editText.getText().toString().length() == 0) {
 		    return;
 		}
