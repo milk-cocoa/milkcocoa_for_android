@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
     private void connect() {
         this.milkcocoa = new MilkCocoa();
         try {
-			milkcocoa.init("https://io-dammy-0000.mlkcca.com");
+			milkcocoa.init("https://io-cocoa-0003.mlkcca.com/");
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
 		try {
 			query = MainActivity.this.messagesDataStore.query(new JSONObject());
 			query.limit(25);
-			query.desort("time");
+			query.desort("date");
 			query.done(new Callback() {
 
 				@Override
@@ -146,8 +146,7 @@ public class MainActivity extends Activity {
 		try {
 			params.put("content", editText.getText().toString());
 			Date date = new Date();
-			params.put("date", date.toString());
-			params.put("time", date.getTime());
+			params.put("date", date.getTime());
 			this.messagesDataStore.push(params);
 		} catch (JSONException e) {
 			e.printStackTrace();
