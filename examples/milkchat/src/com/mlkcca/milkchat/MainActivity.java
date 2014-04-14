@@ -4,7 +4,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-
 import javax.net.ssl.SSLContext;
 
 import org.json.JSONArray;
@@ -59,9 +58,9 @@ public class MainActivity extends Activity {
     }
 
     private void connect() {
-        this.milkcocoa = new MilkCocoa();
+        this.milkcocoa = new MilkCocoa(this.getApplicationContext());
         try {
-			milkcocoa.init("https://io-cocoa-0003.mlkcca.com/");
+			milkcocoa.init("https://io-android1.mlkcca.com/", "c27a6bb2c01574ab339586f005c851587540bf7c");
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
