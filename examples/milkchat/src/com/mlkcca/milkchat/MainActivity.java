@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
     }
 
     private void connect() {
-        this.milkcocoa = new MilkCocoa(this.getApplicationContext());
+        this.milkcocoa = new MilkCocoa();
         try {
 			milkcocoa.init("https://io-android1.mlkcca.com/", "c27a6bb2c01574ab339586f005c851587540bf7c");
 		} catch (MalformedURLException e1) {
