@@ -1,7 +1,7 @@
-milkcocoa_for_android
+Milkcocoa SDK for Android
 =====================
 
-milkcocoa client library for android
+This is Milkcocoa client library for android.
 
 #概要
 
