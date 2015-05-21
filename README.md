@@ -5,7 +5,7 @@ This is Milkcocoa client library for android.
 
 #概要
 
-MilkcocoaのAndroid SDKです。2015年５月に公開した新バージョンに対応しております。
+MilkcocoaのAndroid SDKです。2015年5月に公開した新バージョンに対応しております。
 
 Milkcocoaはリアルタイム通信をサポートする、Backend as a Serviceです。
 
