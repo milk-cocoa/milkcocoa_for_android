@@ -26,6 +26,10 @@ AndroidManifest.xmlに以下の一行を追加
 
 http://milk-cocoa.github.io/milkcocoa_for_android/doc/
 
+# サンプル
+
+https://github.com/milk-cocoa/android-examples
+
 # このSDKについて
 
 このSDKについてはベータバージョンで、動作は保証しておりませんのでご了承ください。
